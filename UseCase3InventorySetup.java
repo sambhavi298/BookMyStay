@@ -1,78 +1,40 @@
-/**
- * UseCase3InventorySetup
- *
- * This class demonstrates centralized room inventory management using HashMap.
- * It replaces scattered availability variables with a single source of truth.
- *
- * @author Akshit
- * @version 3.0
- */
-
 import java.util.HashMap;
 import java.util.Map;
 
-// Inventory class (Single Source of Truth)
 class RoomInventory {
+    private Map<String, Integer> inventory;
 
-    private HashMap<String, Integer> inventory;
-
-    // Constructor - initialize inventory
     public RoomInventory() {
         inventory = new HashMap<>();
-
-        // Initial room availability
-        inventory.put("Single Room", 5);
-        inventory.put("Double Room", 3);
-        inventory.put("Suite Room", 2);
     }
 
-    // Get availability of a specific room type
-    public int getAvailability(String roomType) {
-        return inventory.getOrDefault(roomType, 0);
+    public void addRoomType(String type, int count) {
+        inventory.put(type, count);
     }
 
-    // Update availability (controlled update)
-    public void updateAvailability(String roomType, int newCount) {
-        if (inventory.containsKey(roomType)) {
-            inventory.put(roomType, newCount);
-        } else {
-            System.out.println("Room type not found!");
-        }
+    public int getAvailability(String type) {
+        return inventory.getOrDefault(type, 0);
     }
 
-    // Display full inventory
+    public void updateAvailability(String type, int count) {
+        inventory.put(type, count);
+    }
+
     public void displayInventory() {
-        System.out.println("\n--- Current Room Inventory ---\n");
-
+        System.out.println("Room Inventory:");
         for (Map.Entry<String, Integer> entry : inventory.entrySet()) {
-            System.out.println(entry.getKey() + " : " + entry.getValue());
+            System.out.println(entry.getKey() + " -> " + entry.getValue());
         }
     }
 }
 
-// Main class
 public class UseCase3InventorySetup {
-
     public static void main(String[] args) {
-
-        System.out.println("====================================");
-        System.out.println(" Book My Stay App ");
-        System.out.println(" Version 3.0 ");
-        System.out.println("====================================");
-
-        // Initialize inventory
         RoomInventory inventory = new RoomInventory();
+        inventory.addRoomType("Single", 5);
+        inventory.addRoomType("Double", 3);
+        inventory.addRoomType("Suite", 2);
 
-        // Display initial inventory
         inventory.displayInventory();
-
-        // Example: Update availability
-        System.out.println("\nUpdating Single Room availability...\n");
-        inventory.updateAvailability("Single Room", 4);
-
-        // Display updated inventory
-        inventory.displayInventory();
-
-        System.out.println("\nApplication finished execution.");
     }
 }
